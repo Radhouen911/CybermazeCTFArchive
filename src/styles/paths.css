@@ -1,0 +1,971 @@
+/* Path-Themed Challenges Page */
+
+.path-themed {
+  height: 70vh;
+  max-height: 80vh;
+  overflow: hidden;
+  background: #0a0a0a;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+}
+
+/* Path Header */
+.path-header {
+  padding: 1.5rem 0 1rem;
+  position: relative;
+  overflow: hidden;
+  border-bottom: none;
+  box-shadow: none;
+  flex-shrink: 0;
+}
+
+.path-header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.03) 0px,
+    transparent 1px,
+    transparent 2px,
+    rgba(255, 255, 255, 0.03) 3px
+  );
+  pointer-events: none;
+}
+
+.path-title-wrapper {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.path-title {
+  font-family: "Press Start 2P", monospace;
+  font-size: 2.5rem;
+  font-weight: 400;
+  color: var(--path-color);
+  letter-spacing: 0.2rem;
+  margin: 0 0 1rem 0;
+  animation: path-pulse 3s ease-in-out infinite;
+}
+
+@keyframes path-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+.path-subtitle {
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.6rem;
+  color: #fff;
+  letter-spacing: 0.1rem;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 0 #000;
+}
+
+.path-progress {
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.5rem;
+  color: var(--path-color);
+  letter-spacing: 0.08rem;
+  text-shadow: 2px 2px 0 #000;
+}
+
+/* Path Navigation */
+.path-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  padding: 0.75rem 1rem;
+  background: transparent;
+  border-bottom: none;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.path-nav-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  width: 50px;
+  height: 50px;
+  display: inline-block;
+}
+
+/* Left Arrow - Triangle pointing left with shiny effect */
+.path-nav-prev::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 0;
+  height: 0;
+  border-top: 12px solid transparent;
+  border-bottom: 12px solid transparent;
+  border-right: 18px solid var(--path-color);
+  filter: drop-shadow(0 0 8px var(--path-color))
+    drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.5));
+  opacity: 0.8;
+  transition: all 0.4s ease;
+}
+
+/* Shiny highlight on left arrow */
+.path-nav-prev::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 45%;
+  transform: translate(-50%, -50%);
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-right: 8px solid rgba(255, 255, 255, 0.4);
+  filter: blur(1px);
+  transition: all 0.4s ease;
+  z-index: 1;
+}
+
+.path-nav-prev:hover::after {
+  filter: drop-shadow(0 0 20px var(--path-color))
+    drop-shadow(0 0 35px var(--path-color))
+    drop-shadow(3px 3px 6px rgba(0, 0, 0, 0.6));
+  opacity: 1;
+  transform: translate(-60%, -50%) scale(1.15);
+}
+
+.path-nav-prev:hover::before {
+  border-right-color: rgba(255, 255, 255, 0.6);
+  transform: translate(-60%, -50%) scale(1.15);
+}
+
+.path-nav-prev:active::after {
+  transform: translate(-55%, -50%) scale(1.05);
+}
+
+.path-nav-prev:active::before {
+  transform: translate(-55%, -50%) scale(1.05);
+}
+
+/* Right Arrow - Triangle pointing right with shiny effect */
+.path-nav-next::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 0;
+  height: 0;
+  border-top: 12px solid transparent;
+  border-bottom: 12px solid transparent;
+  border-left: 18px solid var(--path-color);
+  filter: drop-shadow(0 0 8px var(--path-color))
+    drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.5));
+  opacity: 0.8;
+  transition: all 0.4s ease;
+}
+
+/* Shiny highlight on right arrow */
+.path-nav-next::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 55%;
+  transform: translate(-50%, -50%);
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 8px solid rgba(255, 255, 255, 0.4);
+  filter: blur(1px);
+  transition: all 0.4s ease;
+  z-index: 1;
+}
+
+.path-nav-next:hover::after {
+  filter: drop-shadow(0 0 20px var(--path-color))
+    drop-shadow(0 0 35px var(--path-color))
+    drop-shadow(3px 3px 6px rgba(0, 0, 0, 0.6));
+  opacity: 1;
+  transform: translate(-40%, -50%) scale(1.15);
+}
+
+.path-nav-next:hover::before {
+  border-left-color: rgba(255, 255, 255, 0.6);
+  transform: translate(-40%, -50%) scale(1.15);
+}
+
+.path-nav-next:active::after {
+  transform: translate(-45%, -50%) scale(1.05);
+}
+
+.path-nav-next:active::before {
+  transform: translate(-45%, -50%) scale(1.05);
+}
+
+/* Remove the ::before content */
+.path-nav-prev::before,
+.path-nav-next::before {
+  content: none;
+}
+
+.path-indicator {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  position: relative;
+  left: auto;
+  transform: none;
+}
+
+.path-dot {
+  width: 16px;
+  height: 16px;
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(255, 255, 255, 0.3),
+    #333
+  );
+  border: 2px solid #666;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.2),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.5), 0 0 8px rgba(100, 100, 100, 0.3);
+  position: relative;
+  opacity: 0.6;
+}
+
+.path-dot::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 3px;
+  width: 4px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  filter: blur(1px);
+}
+
+.path-dot:hover {
+  transform: scale(1.2);
+  opacity: 0.8;
+  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.3),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.5), 0 0 12px rgba(100, 100, 100, 0.5);
+}
+
+.path-dot.active {
+  width: 20px;
+  height: 20px;
+  opacity: 1;
+  animation: dotGlow 2s ease-in-out infinite;
+  box-shadow: inset 0 3px 6px rgba(255, 255, 255, 0.4),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.4), 0 0 20px var(--path-color),
+    0 0 30px var(--path-color);
+}
+
+.path-dot.active::before {
+  width: 6px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+@keyframes dotGlow {
+  0%,
+  100% {
+    box-shadow: inset 0 3px 6px rgba(255, 255, 255, 0.4),
+      inset 0 -3px 6px rgba(0, 0, 0, 0.4), 0 0 20px var(--path-color),
+      0 0 30px var(--path-color);
+  }
+  50% {
+    box-shadow: inset 0 3px 6px rgba(255, 255, 255, 0.5),
+      inset 0 -3px 6px rgba(0, 0, 0, 0.3), 0 0 30px var(--path-color),
+      0 0 45px var(--path-color), 0 0 60px var(--path-color);
+  }
+}
+
+/* Path Container */
+.path-container {
+  padding: 1rem 0;
+  max-width: 1200px;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  height: auto;
+  min-height: 0;
+}
+
+/* Challenges Grid - Horizontal Flow */
+.path-challenges-grid {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  padding: 0 2rem;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  box-sizing: border-box;
+}
+
+.path-container {
+  max-width: none !important;
+  width: 100%;
+  overflow-x: visible;
+}
+
+.path-challenge-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* Hide connector lines */
+.challenge-connector {
+  display: none;
+}
+
+/* Challenge Node - Square Card */
+.path-challenge-node {
+  width: 200px;
+  height: 200px;
+  background: rgba(10, 10, 10, 0.95);
+  border: 3px solid var(--path-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.7), var(--path-glow);
+}
+
+.path-challenge-node:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 30px var(--path-color), 0 15px 40px rgba(0, 0, 0, 0.8);
+  z-index: 10;
+}
+
+.node-number {
+  font-family: "Press Start 2P", monospace;
+  font-size: 1.8rem;
+  color: var(--path-color);
+  text-shadow: 2px 2px 0 #000, 0 0 15px var(--path-color);
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.node-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+
+.node-name {
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.4rem;
+  color: #fff;
+  text-shadow: 1px 1px 0 #000;
+  letter-spacing: 0.02rem;
+  line-height: 1.4;
+  max-width: 160px;
+}
+
+.node-points {
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.65rem;
+  font-weight: 400;
+  text-shadow: 1px 1px 0 #000;
+  letter-spacing: 0.03rem;
+  padding: 0.5rem 1rem;
+  background: rgba(0, 0, 0, 0.7);
+  border: 2px solid var(--path-color);
+}
+
+/* Solved State */
+.node-solved {
+  border-color: #00ff00 !important;
+  box-shadow: 0 0 20px rgba(0, 255, 0, 0.6);
+}
+
+.node-solved .node-number,
+.node-solved .node-points {
+  color: #00ff00;
+}
+
+.node-check {
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  width: 35px;
+  height: 35px;
+  background: #00ff00;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+  font-size: 1.3rem;
+  font-weight: bold;
+  box-shadow: 0 0 20px rgba(0, 255, 0, 0.9);
+  animation: check-pulse 2s ease-in-out infinite;
+  transform: rotate(-45deg);
+  z-index: 10;
+}
+
+@keyframes check-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+/* Locked State */
+.node-locked {
+  opacity: 0.4;
+  border-color: #666 !important;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.node-locked .node-number,
+.node-locked .node-name,
+.node-locked .node-points {
+  color: #666;
+}
+
+.node-lock {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-45deg);
+  font-size: 2.5rem;
+  filter: grayscale(1);
+  opacity: 0.7;
+  z-index: 5;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .path-challenges-grid {
+    gap: 3rem;
+  }
+
+  .challenge-connector {
+    left: -3rem;
+    width: 3rem;
+  }
+  .path-title {
+    font-size: 1.5rem;
+    letter-spacing: 0.1rem;
+  }
+
+  .path-subtitle {
+    font-size: 0.45rem;
+  }
+
+  .path-challenges-grid {
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+    padding: 2rem 1rem;
+  }
+
+  .challenge-connector {
+    left: 50%;
+    top: -3rem;
+    width: 3px;
+    height: 3rem;
+    background: linear-gradient(180deg, transparent, var(--path-color));
+    transform: translateX(-50%);
+  }
+
+  .challenge-connector::after {
+    content: "▼";
+    right: auto;
+    left: 50%;
+    top: auto;
+    bottom: -10px;
+    transform: translateX(-50%);
+  }
+
+  .path-challenge-node {
+    width: 160px;
+    height: 160px;
+  }
+
+  .node-number {
+    font-size: 1.3rem;
+  }
+
+  .node-name {
+    font-size: 0.35rem;
+    max-width: 130px;
+  }
+
+  .node-points {
+    font-size: 0.55rem;
+    padding: 0.4rem 0.7rem;
+  }
+
+  .path-navigation {
+    padding: 2rem 2rem;
+  }
+
+  .path-nav-button {
+    width: 60px;
+    height: 60px;
+    font-size: 2rem;
+  }
+}
+
+/* Neon Grid Background for The Neon Grid Path */
+.neon-grid-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+}
+
+/* Vertical neon grid lines */
+.neon-grid-line {
+  position: absolute;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(0, 255, 255, 0.4),
+    transparent
+  );
+  box-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+  opacity: 0;
+}
+
+.neon-grid-line-1 {
+  left: 15%;
+  animation: neonFlicker1 4.3s ease-in-out infinite;
+}
+
+.neon-grid-line-2 {
+  left: 35%;
+  animation: neonFlicker2 3.7s ease-in-out infinite;
+}
+
+.neon-grid-line-3 {
+  left: 50%;
+  animation: neonFlicker3 5.1s ease-in-out infinite;
+}
+
+.neon-grid-line-4 {
+  left: 65%;
+  animation: neonFlicker4 4.8s ease-in-out infinite;
+}
+
+.neon-grid-line-5 {
+  left: 85%;
+  animation: neonFlicker5 3.2s ease-in-out infinite;
+}
+
+/* Horizontal neon grid lines */
+.neon-grid-horizontal {
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 255, 255, 0.4),
+    transparent
+  );
+  box-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+  opacity: 0;
+}
+
+.neon-grid-h-1 {
+  top: 20%;
+  animation: neonFlickerH1 3.9s ease-in-out infinite;
+}
+
+.neon-grid-h-2 {
+  top: 40%;
+  animation: neonFlickerH2 4.5s ease-in-out infinite;
+}
+
+.neon-grid-h-3 {
+  top: 60%;
+  animation: neonFlickerH3 3.4s ease-in-out infinite;
+}
+
+.neon-grid-h-4 {
+  top: 80%;
+  animation: neonFlickerH4 5.2s ease-in-out infinite;
+}
+
+/* Random flicker animations for vertical lines */
+@keyframes neonFlicker1 {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.3;
+  }
+  20% {
+    opacity: 0;
+  }
+  35% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.2;
+  }
+  65% {
+    opacity: 0;
+  }
+  80% {
+    opacity: 0.4;
+  }
+}
+
+@keyframes neonFlicker2 {
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  15% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.4;
+  }
+  45% {
+    opacity: 0.1;
+  }
+  60% {
+    opacity: 0.5;
+  }
+  75% {
+    opacity: 0;
+  }
+}
+
+@keyframes neonFlicker3 {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.15;
+  }
+  40% {
+    opacity: 0.05;
+  }
+  55% {
+    opacity: 0;
+  }
+  70% {
+    opacity: 0.12;
+  }
+  85% {
+    opacity: 0.2;
+  }
+}
+
+@keyframes neonFlicker4 {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  12% {
+    opacity: 0.5;
+  }
+  28% {
+    opacity: 0;
+  }
+  42% {
+    opacity: 0.2;
+  }
+  58% {
+    opacity: 0.4;
+  }
+  72% {
+    opacity: 0;
+  }
+  88% {
+    opacity: 0.3;
+  }
+}
+
+@keyframes neonFlicker5 {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  18% {
+    opacity: 0.2;
+  }
+  32% {
+    opacity: 0.5;
+  }
+  48% {
+    opacity: 0;
+  }
+  64% {
+    opacity: 0.4;
+  }
+  78% {
+    opacity: 0.1;
+  }
+}
+
+/* Random flicker animations for horizontal lines */
+@keyframes neonFlickerH1 {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  25% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.3;
+  }
+  75% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes neonFlickerH2 {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.2;
+  }
+  45% {
+    opacity: 0.1;
+  }
+  70% {
+    opacity: 0;
+  }
+}
+
+@keyframes neonFlickerH3 {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  30% {
+    opacity: 0;
+  }
+  55% {
+    opacity: 0.4;
+  }
+  80% {
+    opacity: 0.1;
+  }
+}
+
+@keyframes neonFlickerH4 {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.2;
+  }
+  40% {
+    opacity: 0.5;
+  }
+  65% {
+    opacity: 0;
+  }
+  90% {
+    opacity: 0.3;
+  }
+}
+
+/* Reduce gap between tasks and footer */
+.arcade-footer {
+  margin-top: -100px;
+  position: relative;
+  z-index: 10;
+}
+
+.path-themed {
+  padding-bottom: 0;
+}
+
+/* Video Background for Paths */
+.path-video-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* Challenge Files Styling */
+.arcade-challenge-files {
+  margin: 20px 0;
+  padding: 15px;
+  background: rgba(0, 255, 255, 0.05);
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  border-radius: 8px;
+}
+
+.arcade-challenge-files h4 {
+  color: #00ffff;
+  font-size: 14px;
+  margin: 0 0 10px 0;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.arcade-files-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.arcade-file-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 15px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(0, 255, 255, 0.2);
+  border-radius: 4px;
+  color: #00ffff;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.arcade-file-link:hover {
+  background: rgba(0, 255, 255, 0.1);
+  border-color: #00ffff;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+  transform: translateX(5px);
+}
+
+.arcade-file-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.arcade-file-name {
+  flex: 1;
+  font-family: "Courier New", monospace;
+  font-size: 14px;
+}
+
+.arcade-file-download {
+  font-size: 18px;
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+.arcade-file-link:hover .arcade-file-download {
+  opacity: 1;
+  animation: bounce 0.5s ease infinite;
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+/* No Challenges Message */
+.no-challenges-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 60vh;
+  width: 100%;
+  max-width: 100%;
+  padding: 4rem 2rem;
+  margin: 0;
+  position: relative;
+  left: 0;
+  right: 0;
+  color: var(--path-color, #00ffff);
+}
+
+.no-challenges-icon {
+  font-size: 5rem;
+  margin-bottom: 2rem;
+  animation: float 3s ease-in-out infinite;
+}
+
+.no-challenges-message h2 {
+  font-size: 2.5rem;
+  color: var(--path-color, #00ffff);
+  text-shadow: 0 0 20px var(--path-color, #00ffff);
+  margin: 0 0 1.5rem 0;
+  letter-spacing: 0.1em;
+  font-weight: bold;
+}
+
+.no-challenges-message p {
+  font-size: 1.3rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}

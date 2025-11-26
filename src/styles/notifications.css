@@ -1,0 +1,235 @@
+/* Notification Bell */
+.arcade-notification-bell {
+  position: relative;
+  display: inline-block;
+}
+
+.arcade-notification-button {
+  position: relative;
+  font-size: 1.2rem;
+  padding: 0.5rem 1rem;
+}
+
+.arcade-notification-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #ff0066;
+  color: white;
+  border-radius: 10px;
+  padding: 2px 6px;
+  font-size: 0.7rem;
+  font-weight: bold;
+  min-width: 18px;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(255, 0, 102, 0.8);
+  animation: pulse-badge 2s infinite;
+}
+
+@keyframes pulse-badge {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 10px rgba(255, 0, 102, 0.8);
+  }
+  50% {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(255, 0, 102, 1);
+  }
+}
+
+/* Notification Dropdown */
+.arcade-notification-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 350px;
+  max-height: 500px;
+  background: rgba(10, 10, 30, 0.98);
+  border: 2px solid #00ffff;
+  border-radius: 8px;
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.5),
+    inset 0 0 20px rgba(0, 255, 255, 0.1);
+  z-index: 1000;
+  overflow: hidden;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.arcade-notification-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid rgba(0, 255, 255, 0.3);
+  background: rgba(0, 255, 255, 0.05);
+}
+
+.arcade-notification-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #00ffff;
+  text-transform: uppercase;
+  font-family: "Press Start 2P", monospace;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+}
+
+.arcade-notification-clear {
+  background: transparent;
+  border: 1px solid #ff0066;
+  color: #ff0066;
+  padding: 0.3rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+}
+
+.arcade-notification-clear:hover {
+  background: #ff0066;
+  color: white;
+  box-shadow: 0 0 15px rgba(255, 0, 102, 0.6);
+}
+
+/* Notification List */
+.arcade-notification-list {
+  max-height: 400px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #00ffff rgba(0, 255, 255, 0.1);
+}
+
+.arcade-notification-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.arcade-notification-list::-webkit-scrollbar-track {
+  background: rgba(0, 255, 255, 0.1);
+}
+
+.arcade-notification-list::-webkit-scrollbar-thumb {
+  background: #00ffff;
+  border-radius: 4px;
+}
+
+.arcade-notification-list::-webkit-scrollbar-thumb:hover {
+  background: #00cccc;
+}
+
+.arcade-notification-empty {
+  padding: 2rem;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.5);
+  font-style: italic;
+}
+
+/* Notification Item */
+.arcade-notification-item {
+  padding: 1rem;
+  border-bottom: 1px solid rgba(0, 255, 255, 0.1);
+  transition: background 0.3s ease;
+  cursor: pointer;
+}
+
+.arcade-notification-item:hover {
+  background: rgba(0, 255, 255, 0.05);
+}
+
+.arcade-notification-item:last-child {
+  border-bottom: none;
+}
+
+.arcade-notification-item-title {
+  font-weight: bold;
+  color: #00ffff;
+  margin-bottom: 0.3rem;
+  font-size: 0.9rem;
+  text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+}
+
+.arcade-notification-item-content {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.85rem;
+  line-height: 1.4;
+  margin-bottom: 0.5rem;
+}
+
+.arcade-notification-item-time {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.75rem;
+  font-style: italic;
+}
+
+/* Toast Notifications */
+.arcade-notification-toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 350px;
+  background: linear-gradient(
+    135deg,
+    rgba(10, 10, 30, 0.98) 0%,
+    rgba(20, 20, 50, 0.98) 100%
+  );
+  border: 2px solid #00ffff;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.6),
+    inset 0 0 20px rgba(0, 255, 255, 0.1);
+  z-index: 10000;
+  opacity: 0;
+  transform: translateX(400px);
+  transition: all 0.3s ease-out;
+}
+
+.arcade-notification-toast.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.arcade-notification-toast-title {
+  font-weight: bold;
+  color: #00ffff;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+  text-transform: uppercase;
+}
+
+.arcade-notification-toast-content {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .arcade-notification-dropdown {
+    width: 300px;
+    right: -50px;
+  }
+
+  .arcade-notification-toast {
+    width: calc(100% - 40px);
+    right: 20px;
+    left: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .arcade-notification-dropdown {
+    width: calc(100vw - 40px);
+    right: -100px;
+  }
+}

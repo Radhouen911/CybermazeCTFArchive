@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/themes/Arcade/static/LOGO.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ Configs.ctf_name or 'CyberMaze' }}</title>
+    <script>
+      window.init = {
+        urlRoot: "{{ request.script_root }}",
+        csrfNonce: "{{ Session.nonce }}",
+        userMode: "{{ Configs.user_mode }}",
+        userId: {{ Session.id or 'null' }},
+        userName: "{{ Session.name or '' }}",
+        userEmail: "{{ Session.email or '' }}",
+        userType: "{{ Session.type or '' }}",
+        registrationCodeRequired: {{ 'true' if Configs.registration_code_required else 'false' }},
+        ctfStart: {% if Configs.start %}"{{ Configs.start }}"{% else %}null{% endif %},
+        ctfEnd: {% if Configs.end %}"{{ Configs.end }}"{% else %}null{% endif %},
+        ctfPaused: {{ 'true' if Configs.paused else 'false' }}
+      };
+    </script>
+    <script type="module" crossorigin src="/themes/Arcade/static/assets/main-C1B9-smi.js"></script>
+    <link rel="stylesheet" crossorigin href="/themes/Arcade/static/assets/main-DTLlE3-E.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
