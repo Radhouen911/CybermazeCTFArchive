@@ -253,3 +253,33 @@
 .task-container-wrapper {
   animation: fadeInScale 0.4s ease-out;
 }
+
+/* Task Tags */
+.task-tags-display {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  justify-content: center;
+  margin-top: 0.5rem;
+  padding: 0 1rem;
+}
+
+.task-tag {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.9);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
+}
+
+.task-tag:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px currentColor;
+}

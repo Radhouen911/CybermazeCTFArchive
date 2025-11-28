@@ -674,3 +674,165 @@ body.modal-open footer {
   font-size: 0.85rem;
   line-height: 1.4;
 }
+
+/* Modal Tabs */
+.arcade-modal-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid rgba(0, 255, 255, 0.2);
+}
+
+.arcade-tab {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  border-bottom: 3px solid transparent;
+  position: relative;
+  bottom: -2px;
+}
+
+.arcade-tab:hover {
+  color: #00ffff;
+  background: rgba(0, 255, 255, 0.05);
+}
+
+.arcade-tab.active {
+  color: #00ffff;
+  border-bottom-color: #00ffff;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+}
+
+/* Solves List */
+.arcade-challenge-solves {
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  border: 1px solid rgba(0, 255, 255, 0.2);
+}
+
+.arcade-solves-loading,
+.arcade-solves-empty {
+  text-align: center;
+  padding: 2rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-style: italic;
+}
+
+.arcade-solves-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.arcade-solve-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  background: rgba(0, 255, 255, 0.05);
+  border: 1px solid rgba(0, 255, 255, 0.2);
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.arcade-solve-item:hover {
+  background: rgba(0, 255, 255, 0.1);
+  border-color: #00ffff;
+  transform: translateX(5px);
+}
+
+.arcade-solve-rank {
+  font-weight: bold;
+  color: #ffff00;
+  min-width: 40px;
+  text-shadow: 0 0 5px rgba(255, 255, 0, 0.5);
+}
+
+.arcade-solve-name {
+  flex: 1;
+  color: #00ffff;
+  font-weight: 500;
+}
+
+.arcade-solve-link {
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.arcade-solve-link:hover {
+  color: #00ff00;
+  text-shadow: 0 0 10px rgba(0, 255, 0, 0.8);
+  text-decoration: underline;
+}
+
+.arcade-solve-date {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.85rem;
+}
+
+/* Scrollbar for solves */
+.arcade-challenge-solves::-webkit-scrollbar {
+  width: 8px;
+}
+
+.arcade-challenge-solves::-webkit-scrollbar-track {
+  background: rgba(0, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.arcade-challenge-solves::-webkit-scrollbar-thumb {
+  background: #00ffff;
+  border-radius: 4px;
+}
+
+.arcade-challenge-solves::-webkit-scrollbar-thumb:hover {
+  background: #00cccc;
+}
+
+/* Challenge Tags in Modal */
+.arcade-challenge-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  padding: 0.75rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  border: 1px solid rgba(0, 255, 255, 0.2);
+}
+
+.arcade-challenge-tag {
+  display: inline-block;
+  padding: 0.4rem 1rem;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 255, 255, 0.1) 0%,
+    rgba(255, 0, 255, 0.1) 100%
+  );
+  border: 2px solid #00ffff;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: #00ffff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.arcade-challenge-tag:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+  border-color: #00ff00;
+  color: #00ff00;
+}

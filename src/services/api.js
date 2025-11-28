@@ -58,6 +58,10 @@ class CTFdAPI {
     return this.request(`/challenges/${id}`);
   }
 
+  async getChallengeSolves(id) {
+    return this.request(`/challenges/${id}/solves`);
+  }
+
   async submitFlag(challengeId, submission) {
     const nonce = window.init?.csrfNonce;
     return this.request(`/challenges/attempt`, {
@@ -494,11 +498,7 @@ class CTFdAPI {
   // Notifications
   async getNotifications(sinceId = 0) {
     try {
-      console.log("[API] Fetching notifications, sinceId:", sinceId);
-
-      // Try direct GET request to see what we get
       const url = `${this.baseURL}/notifications?since_id=${sinceId}`;
-      console.log("[API] Request URL:", url);
 
       const response = await fetch(url, {
         method: "GET",
@@ -508,23 +508,11 @@ class CTFdAPI {
         },
       });
 
-      console.log("[API] Response status:", response.status);
-      console.log(
-        "[API] Response headers:",
-        Object.fromEntries(response.headers.entries())
-      );
-
       if (!response.ok) {
-        console.error(
-          "[API] Response not OK:",
-          response.status,
-          response.statusText
-        );
         return { success: true, data: [] };
       }
 
       const data = await response.json();
-      console.log("[API] Response data:", data);
 
       // CTFd API returns { success: true, data: [...] }
       if (data.success && Array.isArray(data.data)) {

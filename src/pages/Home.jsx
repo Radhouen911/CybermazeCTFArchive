@@ -115,9 +115,7 @@ function Home() {
           soundPlayed = true;
           const startSound = new Audio("/themes/Arcade/static/start.mp3");
           startSound.volume = 0.7;
-          startSound
-            .play()
-            .catch((err) => console.log("Audio play failed:", err));
+          startSound.play().catch(() => {});
         }
       } else {
         // Timer reached zero - CTF has started!

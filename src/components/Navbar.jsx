@@ -10,7 +10,7 @@ function Navbar() {
   const playTransitionSound = () => {
     const audio = new Audio("/themes/Arcade/static/transition.mp3");
     audio.volume = 0.5;
-    audio.play().catch((err) => console.log("Audio play failed:", err));
+    audio.play().catch(() => {});
   };
 
   const handleLogout = async () => {

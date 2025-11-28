@@ -9,6 +9,10 @@ function ChallengeModal({ challenge, onClose, onSubmitSuccess }) {
   const [container, setContainer] = useState(null);
   const [containerLoading, setContainerLoading] = useState(false);
   const [containerError, setContainerError] = useState(null);
+  const [activeTab, setActiveTab] = useState("description"); // description, solves
+  const [solves, setSolves] = useState([]);
+  const [solvesLoading, setSolvesLoading] = useState(false);
+  const [scoreVisibility, setScoreVisibility] = useState(true);
 
   // Check if this is a whale challenge
   const isWhaleChallenge = challenge.type === "dynamic_docker";
@@ -16,10 +20,43 @@ function ChallengeModal({ challenge, onClose, onSubmitSuccess }) {
   // Hide navbar/footer when modal opens
   useEffect(() => {
     document.body.classList.add("modal-open");
+    checkScoreVisibility();
     return () => {
       document.body.classList.remove("modal-open");
     };
   }, []);
+
+  // Check score visibility (dark hour)
+  const checkScoreVisibility = () => {
+    const visibility =
+      window.init?.scoreVisibility !== false &&
+      window.init?.scoreVisibility !== "false" &&
+      window.init?.scoreVisibility !== "hidden";
+    setScoreVisibility(visibility);
+  };
+
+  // Fetch solves when tab changes
+  useEffect(() => {
+    if (activeTab === "solves" && scoreVisibility) {
+      fetchSolves();
+    }
+  }, [activeTab, scoreVisibility]);
+
+  const fetchSolves = async () => {
+    if (!scoreVisibility) return;
+
+    setSolvesLoading(true);
+    try {
+      const result = await api.getChallengeSolves(challenge.id);
+      if (result.success && result.data) {
+        setSolves(result.data);
+      }
+    } catch (error) {
+      console.error("Failed to fetch solves:", error);
+    } finally {
+      setSolvesLoading(false);
+    }
+  };
 
   // Fetch container status if whale challenge
   useEffect(() => {
@@ -51,7 +88,7 @@ function ChallengeModal({ challenge, onClose, onSubmitSuccess }) {
         setContainer(result.data);
       }
     } catch (error) {
-      console.log("No active container");
+      // No active container - silent fail
     }
   };
 
@@ -125,17 +162,12 @@ function ChallengeModal({ challenge, onClose, onSubmitSuccess }) {
     txt.innerHTML = text;
     let html = txt.value;
 
-    // Debug: log what we're processing
-    console.log("Original text:", text);
-    console.log("After decode:", html);
-
     // Check if text already contains HTML tags - if so, just return it
     if (
       html.includes("<a ") ||
       html.includes("<img ") ||
       html.includes("<br>")
     ) {
-      console.log("Contains HTML, returning as-is");
       return html;
     }
 
@@ -161,7 +193,6 @@ function ChallengeModal({ challenge, onClose, onSubmitSuccess }) {
     // Convert inline code `code`
     html = html.replace(/`([^`]+)`/g, "<code>$1</code>");
 
-    console.log("Final HTML:", html);
     return html;
   };
 
@@ -178,9 +209,7 @@ function ChallengeModal({ challenge, onClose, onSubmitSuccess }) {
         // Play success sound
         const successSound = new Audio("/themes/Arcade/static/submit.mp3");
         successSound.volume = 0.5;
-        successSound
-          .play()
-          .catch((err) => console.log("Audio play failed:", err));
+        successSound.play().catch(() => {});
 
         setSubmission("");
         onSubmitSuccess();
@@ -191,7 +220,7 @@ function ChallengeModal({ challenge, onClose, onSubmitSuccess }) {
         // Play fail sound
         const failSound = new Audio("/themes/Arcade/static/failsound.mp3");
         failSound.volume = 0.5;
-        failSound.play().catch((err) => console.log("Audio play failed:", err));
+        failSound.play().catch(() => {});
       }
     } catch (error) {
       console.error("Submission failed:", error);
@@ -199,7 +228,7 @@ function ChallengeModal({ challenge, onClose, onSubmitSuccess }) {
       // Play fail sound on error too
       const failSound = new Audio("/themes/Arcade/static/failsound.mp3");
       failSound.volume = 0.5;
-      failSound.play().catch((err) => console.log("Audio play failed:", err));
+      failSound.play().catch(() => {});
     } finally {
       setSubmitting(false);
     }
@@ -251,15 +280,116 @@ function ChallengeModal({ challenge, onClose, onSubmitSuccess }) {
               <span className="arcade-info-label">POINTS:</span>
               <span className="arcade-info-value">{challenge.value}</span>
             </div>
+            {challenge.solves !== undefined && (
+              <div className="arcade-info-item">
+                <span className="arcade-info-label">SOLVES:</span>
+                <span className="arcade-info-value">{challenge.solves}</span>
+              </div>
+            )}
           </div>
 
-          <div className="arcade-challenge-description">
-            <div
-              dangerouslySetInnerHTML={{
-                __html: processMarkdown(challenge.description),
-              }}
-            />
+          {/* Tags Display */}
+          {challenge.tags && challenge.tags.length > 0 && (
+            <div className="arcade-challenge-tags">
+              {challenge.tags.map((tag, idx) => {
+                const tagValue =
+                  typeof tag === "string" ? tag : tag.value || tag.name || tag;
+                return (
+                  <span key={idx} className="arcade-challenge-tag">
+                    {tagValue}
+                  </span>
+                );
+              })}
+            </div>
+          )}
+
+          {/* Tabs */}
+          <div className="arcade-modal-tabs">
+            <button
+              className={`arcade-tab ${
+                activeTab === "description" ? "active" : ""
+              }`}
+              onClick={() => setActiveTab("description")}
+            >
+              📝 DESCRIPTION
+            </button>
+            {scoreVisibility && (
+              <button
+                className={`arcade-tab ${
+                  activeTab === "solves" ? "active" : ""
+                }`}
+                onClick={() => setActiveTab("solves")}
+              >
+                🏆 SOLVES ({challenge.solves || 0})
+              </button>
+            )}
           </div>
+
+          {/* Tab Content */}
+          {activeTab === "description" && (
+            <div className="arcade-challenge-description">
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: processMarkdown(challenge.description),
+                }}
+              />
+            </div>
+          )}
+
+          {activeTab === "solves" && scoreVisibility && (
+            <div className="arcade-challenge-solves">
+              {solvesLoading ? (
+                <div className="arcade-solves-loading">Loading solves...</div>
+              ) : solves.length === 0 ? (
+                <div className="arcade-solves-empty">
+                  No solves yet. Be the first!
+                </div>
+              ) : (
+                <div className="arcade-solves-list">
+                  {solves.map((solve, idx) => {
+                    // Determine if it's a team or user solve
+                    const isTeamMode = window.init?.userMode === "teams";
+                    const name =
+                      solve.name ||
+                      solve.team?.name ||
+                      solve.user?.name ||
+                      "Anonymous";
+                    const userId =
+                      solve.account_id || solve.user_id || solve.user?.id;
+                    const teamId = solve.team_id || solve.team?.id;
+
+                    // Build the profile link
+                    let profileLink = "#";
+                    if (isTeamMode && teamId) {
+                      profileLink = `/teams/${teamId}`;
+                    } else if (userId) {
+                      profileLink = `/users/${userId}`;
+                    }
+
+                    return (
+                      <div key={idx} className="arcade-solve-item">
+                        <span className="arcade-solve-rank">#{idx + 1}</span>
+                        <a
+                          href={profileLink}
+                          className="arcade-solve-name arcade-solve-link"
+                          onClick={(e) => {
+                            if (profileLink === "#") {
+                              e.preventDefault();
+                            }
+                          }}
+                        >
+                          {name}
+                        </a>
+                        <span className="arcade-solve-date">
+                          {new Date(solve.date).toLocaleString()}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          )}
 
           {challenge.files && challenge.files.length > 0 && (
             <div className="arcade-challenge-files">

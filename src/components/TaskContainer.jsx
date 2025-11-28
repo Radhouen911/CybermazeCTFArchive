@@ -8,6 +8,7 @@ function TaskContainer({
   isLocked = false,
   taskNumber = 1,
   pathColor = "#ffff00",
+  tags = [],
 }) {
   const pointsColor = pathColor;
 
@@ -31,6 +32,26 @@ function TaskContainer({
         <div className="task-content-overlay">
           {/* Task Name - Centered in the container */}
           <div className="task-name-display">{taskName}</div>
+
+          {/* Tags - Below task name */}
+          {tags && tags.length > 0 && (
+            <div className="task-tags-display">
+              {tags.map((tag, idx) => {
+                // Handle both string tags and object tags {value: "tag"}
+                const tagValue =
+                  typeof tag === "string" ? tag : tag.value || tag.name || tag;
+                return (
+                  <span
+                    key={idx}
+                    className="task-tag"
+                    style={{ borderColor: pathColor }}
+                  >
+                    {tagValue}
+                  </span>
+                );
+              })}
+            </div>
+          )}
 
           {/* Points Display - Bottom right corner */}
           <div className="task-points-display">

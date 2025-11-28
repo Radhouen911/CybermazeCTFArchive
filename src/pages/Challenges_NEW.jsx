@@ -5,14 +5,35 @@ import TaskContainer from "../components/TaskContainer";
 import { useAuth } from "../context/AuthContext";
 import api from "../services/api";
 
-// Path themes configuration
+// Path themes configuration - Ordered by difficulty/progression
 const PATH_THEMES = {
+  "THE CYBERPUNK ALLEY": {
+    title: "THE CYBERPUNK ALLEY",
+    subtitle: "SHADOWRUN • CYBERPUNK 2077 • NEON NIGHTS",
+    color: "#ff00ff",
+    gradient: "linear-gradient(135deg, #1a0033 0%, #330066 50%, #1a0033 100%)",
+    glow: "0 0 20px #ff00ff",
+  },
+  "RHYTHM REVOLUTION": {
+    title: "RHYTHM REVOLUTION",
+    subtitle: "DDR • GUITAR HERO • BEATMANIA",
+    color: "#ff1493",
+    gradient: "linear-gradient(135deg, #330014 0%, #660029 50%, #330014 100%)",
+    glow: "0 0 20px #ff1493",
+  },
   "THE NEON GRID": {
     title: "THE NEON GRID",
     subtitle: "TRON • LIGHT CYCLES • DIGITAL FRONTIER",
     color: "#00ffff",
     gradient: "linear-gradient(135deg, #001a33 0%, #003366 50%, #001a33 100%)",
     glow: "0 0 20px #00ffff",
+  },
+  "FANTASY QUEST TAVERN": {
+    title: "FANTASY QUEST TAVERN",
+    subtitle: "GOLDEN AXE • GAUNTLET • DUNGEON CRAWLERS",
+    color: "#ffa500",
+    gradient: "linear-gradient(135deg, #331a00 0%, #664400 50%, #331a00 100%)",
+    glow: "0 0 20px #ffa500",
   },
   "8-BIT PIXEL PALACE": {
     title: "8-BIT PIXEL PALACE",
@@ -27,27 +48,6 @@ const PATH_THEMES = {
     color: "#ff0000",
     gradient: "linear-gradient(135deg, #330000 0%, #660000 50%, #330000 100%)",
     glow: "0 0 20px #ff0000",
-  },
-  "THE CYBERPUNK ALLEY": {
-    title: "THE CYBERPUNK ALLEY",
-    subtitle: "SHADOWRUN • CYBERPUNK 2077 • NEON NIGHTS",
-    color: "#ff00ff",
-    gradient: "linear-gradient(135deg, #1a0033 0%, #330066 50%, #1a0033 100%)",
-    glow: "0 0 20px #ff00ff",
-  },
-  "FANTASY QUEST TAVERN": {
-    title: "FANTASY QUEST TAVERN",
-    subtitle: "GOLDEN AXE • GAUNTLET • DUNGEON CRAWLERS",
-    color: "#ffa500",
-    gradient: "linear-gradient(135deg, #331a00 0%, #664400 50%, #331a00 100%)",
-    glow: "0 0 20px #ffa500",
-  },
-  "RHYTHM REVOLUTION": {
-    title: "RHYTHM REVOLUTION",
-    subtitle: "DDR • GUITAR HERO • BEATMANIA",
-    color: "#ff1493",
-    gradient: "linear-gradient(135deg, #330014 0%, #660029 50%, #330014 100%)",
-    glow: "0 0 20px #ff1493",
   },
 };
 
@@ -81,7 +81,7 @@ function Challenges() {
   const playPathChangeSound = () => {
     const audio = new Audio("/themes/Arcade/static/SEL.mp3");
     audio.volume = 0.5;
-    audio.play().catch((err) => console.log("Audio play failed:", err));
+    audio.play().catch(() => {});
   };
 
   useEffect(() => {
@@ -485,6 +485,7 @@ function Challenges() {
                     }
                     taskNumber={idx + 1}
                     pathColor={currentTheme.color}
+                    tags={challenge.tags || []}
                   />
                 </div>
               ))}

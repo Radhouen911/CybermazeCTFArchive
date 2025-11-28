@@ -29,22 +29,12 @@ function NotificationBell() {
   // Fetch notifications
   const fetchNotifications = async () => {
     try {
-      console.log("[Notifications] Fetching notifications, lastId:", lastId);
       const response = await api.getNotifications(lastId);
-      console.log("[Notifications] Response:", response);
 
       if (response.success && response.data) {
         const newNotifications = response.data;
-        console.log(
-          "[Notifications] New notifications count:",
-          newNotifications.length
-        );
 
         if (newNotifications.length > 0) {
-          console.log(
-            "[Notifications] Processing notifications:",
-            newNotifications
-          );
           // Add new notifications to the list
           setNotifications((prev) =>
             [...newNotifications, ...prev].slice(0, 50)
@@ -54,21 +44,15 @@ function NotificationBell() {
           const maxId = Math.max(...newNotifications.map((n) => n.id));
           setLastId(maxId);
           localStorage.setItem("arcade_notification_lastId", maxId.toString());
-          console.log("[Notifications] Updated lastId to:", maxId);
 
           // Show toast for new notifications
           newNotifications.forEach((notification) => {
-            console.log("[Notifications] Showing toast for:", notification);
             showToast(notification);
           });
-        } else {
-          console.log("[Notifications] No new notifications");
         }
-      } else {
-        console.log("[Notifications] Response not successful or no data");
       }
     } catch (error) {
-      console.error("[Notifications] Failed to fetch notifications:", error);
+      console.error("Failed to fetch notifications:", error);
     }
   };
 
@@ -147,19 +131,12 @@ function NotificationBell() {
     return notifDate.toLocaleDateString();
   };
 
-  // Manual test function
-  const testFetch = () => {
-    console.log("[Notifications] Manual test fetch triggered");
-    fetchNotifications();
-  };
-
   return (
     <div className="arcade-notification-bell" ref={dropdownRef}>
       <button
         className="arcade-nav-button arcade-notification-button"
         onClick={toggleDropdown}
-        onDoubleClick={testFetch}
-        title="Notifications (double-click to test)"
+        title="Notifications"
       >
         🔔
         {unreadCount > 0 && (

@@ -1,13 +1,25 @@
-import { useState, useEffect } from 'react';
-import api from '../services/api';
+import { useEffect, useState } from "react";
+import api from "../services/api";
 
 function Scoreboard() {
   const [scores, setScores] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [scoreVisibility, setScoreVisibility] = useState(true);
 
   useEffect(() => {
-    loadScoreboard();
+    checkScoreVisibility();
+    if (scoreVisibility) {
+      loadScoreboard();
+    }
   }, []);
+
+  const checkScoreVisibility = () => {
+    const visibility =
+      window.init?.scoreVisibility !== false &&
+      window.init?.scoreVisibility !== "false" &&
+      window.init?.scoreVisibility !== "hidden";
+    setScoreVisibility(visibility);
+  };
 
   const loadScoreboard = async () => {
     try {
@@ -15,11 +27,33 @@ function Scoreboard() {
       const response = await api.getScoreboard();
       setScores(response.data || []);
     } catch (error) {
-      console.error('Failed to load scoreboard:', error);
+      console.error("Failed to load scoreboard:", error);
     } finally {
       setLoading(false);
     }
   };
+
+  // Dark hour - scores hidden
+  if (!scoreVisibility) {
+    return (
+      <div className="scoreboard-page">
+        <div className="arcade-header">
+          <div className="container">
+            <div className="arcade-title-wrapper">
+              <h1 className="arcade-title">SCOREBOARD</h1>
+            </div>
+          </div>
+        </div>
+        <div className="container">
+          <div className="no-challenges-message">
+            <div className="no-challenges-icon">🌙</div>
+            <h2>Dark Hour Active</h2>
+            <p>Scores are currently hidden. Check back later!</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (loading) {
     return (

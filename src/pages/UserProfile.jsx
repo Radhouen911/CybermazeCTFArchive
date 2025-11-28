@@ -47,7 +47,7 @@ function UserProfile() {
         const solvesResponse = await api.getUserSolves();
         setSolves(solvesResponse.data || []);
       } catch (error) {
-        console.log("Could not load solves:", error);
+        setSolves([]);
       }
 
       // Load awards
@@ -55,7 +55,7 @@ function UserProfile() {
         const awardsResponse = await api.getUserAwards();
         setAwards(awardsResponse.data || []);
       } catch (error) {
-        console.log("Could not load awards:", error);
+        setAwards([]);
       }
     } catch (error) {
       console.error("Failed to load user data:", error);

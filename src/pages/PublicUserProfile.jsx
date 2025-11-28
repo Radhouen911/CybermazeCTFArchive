@@ -29,8 +29,6 @@ function PublicUserProfile() {
           userData = userResponse.data;
         }
       } catch (err) {
-        console.log("Direct user API not available, trying scoreboard...");
-
         // Fallback: Get user data from scoreboard
         const scoreboardResponse = await api.getScoreboard();
         const scoreboardData = scoreboardResponse.data || [];
@@ -63,7 +61,7 @@ function PublicUserProfile() {
           setSolves(solvesResponse.data || []);
         }
       } catch (err) {
-        console.log("Solves not available or hidden");
+        // Solves not available or hidden
       }
 
       // Fetch awards
@@ -73,7 +71,7 @@ function PublicUserProfile() {
           setAwards(awardsResponse.data || []);
         }
       } catch (err) {
-        console.log("Awards not available or hidden");
+        // Awards not available or hidden
       }
     } catch (err) {
       setError(

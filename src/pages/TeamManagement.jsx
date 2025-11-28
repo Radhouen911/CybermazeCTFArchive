@@ -36,8 +36,7 @@ function TeamManagement() {
           if (typeof teamData.members[0] === "number") {
             // Fetch full member data
             const memberPromises = teamData.members.map((memberId) =>
-              api.getUser(memberId).catch((err) => {
-                console.error(`Failed to load member ${memberId}:`, err);
+              api.getUser(memberId).catch(() => {
                 return null;
               })
             );
@@ -49,7 +48,6 @@ function TeamManagement() {
           }
         }
 
-        console.log("Processed team data:", teamData);
         setTeam(teamData);
       }
     } catch (err) {
