@@ -39,3 +39,7 @@ __pycache__
 
 # Development helper scripts
 restart.bat
+
+# Documentation and notes
+*.md
+!README.md

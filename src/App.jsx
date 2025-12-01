@@ -2,7 +2,7 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import TeamRequiredGuard from "./components/TeamRequiredGuard";
 import { AuthProvider } from "./context/AuthContext";
-import Challenges from "./pages/Challenges_NEW";
+import Challenges from "./pages/Challenges";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import PublicTeamProfile from "./pages/PublicTeamProfile";
