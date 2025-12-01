@@ -266,15 +266,21 @@ class CTFdAPI {
   }
 
   async generateToken(data) {
+    const nonce = await this.getNonce();
     return this.request("/tokens", {
       method: "POST",
-      body: JSON.stringify(data),
+      body: JSON.stringify({
+        ...data,
+        nonce: nonce,
+      }),
     });
   }
 
   async deleteToken(id) {
+    const nonce = await this.getNonce();
     return this.request(`/tokens/${id}`, {
       method: "DELETE",
+      body: JSON.stringify({ nonce: nonce }),
     });
   }
 
