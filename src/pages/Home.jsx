@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { config } from "../config";
 
 function Home() {
   const [timeLeft, setTimeLeft] = useState({
@@ -8,8 +9,9 @@ function Home() {
     minutes: 0,
     seconds: 0,
   });
-  const [ctfStatus, setCtfStatus] = useState("loading"); // loading, before, active, ended
+  const [ctfStatus, setCtfStatus] = useState("loading"); // loading, before, active, ended, archived
   const [ctfConfig, setCtfConfig] = useState(null);
+  const archiveMode = config.archiveMode;
 
   useEffect(() => {
     fetchCtfConfig();
@@ -22,6 +24,12 @@ function Home() {
 
   const fetchCtfConfig = async () => {
     try {
+      // In archive mode, always show as ended
+      if (archiveMode) {
+        setCtfStatus("archived");
+        return;
+      }
+
       // Get times from window.init (set by backend template)
       const startTime = window.init?.ctfStart;
       const endTime = window.init?.ctfEnd;
@@ -113,7 +121,7 @@ function Home() {
           newTimeLeft.seconds === 4
         ) {
           soundPlayed = true;
-          const startSound = new Audio("/themes/Arcade/static/start.mp3");
+          const startSound = new Audio("./start.mp3");
           startSound.volume = 0.7;
           startSound.play().catch(() => {});
         }
@@ -222,6 +230,32 @@ function Home() {
           </div>
         )}
 
+        {/* Archived CTF Message */}
+        {ctfStatus === "archived" && (
+          <div className="countdown-section">
+            <h2
+              className="countdown-label"
+              style={{
+                color: "#00ffff",
+                textShadow: "0 0 30px rgba(0, 255, 255, 0.8)",
+              }}
+            >
+              📦 ARCHIVED CTF 📦
+            </h2>
+            <p
+              className="home-subtitle"
+              style={{ marginTop: "1rem", fontSize: "1.3rem", color: "#fff" }}
+            >
+              This is a static archive of the Cybermaze CTF final state.
+              <br />
+              Browse challenges, view the scoreboard, and explore the results!
+            </p>
+            <p style={{ marginTop: "1rem", fontSize: "1rem", color: "#aaa" }}>
+              Authentication and flag submission are disabled in archive mode.
+            </p>
+          </div>
+        )}
+
         {/* Info Section */}
         <div className="home-info">
           <div className="info-card modern-card">
@@ -249,12 +283,19 @@ function Home() {
 
         {/* CTA Section */}
         <div className="home-cta">
-          <Link to="/register" className="cta-button neon-button">
-            REGISTER NOW
-          </Link>
+          {!archiveMode && (
+            <Link to="/register" className="cta-button neon-button">
+              REGISTER NOW
+            </Link>
+          )}
           <Link to="/challenges" className="cta-button-secondary neon-button">
-            VIEW CHALLENGES
+            {archiveMode ? "BROWSE CHALLENGES" : "VIEW CHALLENGES"}
           </Link>
+          {archiveMode && (
+            <Link to="/scoreboard" className="cta-button-secondary neon-button">
+              VIEW SCOREBOARD
+            </Link>
+          )}
         </div>
       </div>
     </div>

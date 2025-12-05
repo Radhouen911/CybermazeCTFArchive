@@ -1,6 +1,6 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import TeamRequiredGuard from "./components/TeamRequiredGuard";
+import { config } from "./config";
 import { AuthProvider } from "./context/AuthContext";
 import Challenges from "./pages/Challenges_NEW";
 import Home from "./pages/Home";
@@ -34,51 +34,22 @@ function App() {
               <Route path="/team" element={<TeamManagement />} />
 
               {/* Protected routes - require team in team mode */}
-              <Route
-                path="/challenges"
-                element={
-                  <TeamRequiredGuard>
-                    <Challenges />
-                  </TeamRequiredGuard>
-                }
-              />
-              <Route
-                path="/scoreboard"
-                element={
-                  <TeamRequiredGuard>
-                    <Scoreboard />
-                  </TeamRequiredGuard>
-                }
-              />
-              <Route
-                path="/users"
-                element={
-                  <TeamRequiredGuard>
-                    <Users />
-                  </TeamRequiredGuard>
-                }
-              />
-              <Route
-                path="/users/:userId"
-                element={
-                  <TeamRequiredGuard>
-                    <PublicUserProfile />
-                  </TeamRequiredGuard>
-                }
-              />
-              <Route
-                path="/profile"
-                element={
-                  <TeamRequiredGuard>
-                    <UserProfile />
-                  </TeamRequiredGuard>
-                }
-              />
+              {/* In archive mode, no team requirement */}
+              <Route path="/challenges" element={<Challenges />} />
+              <Route path="/scoreboard" element={<Scoreboard />} />
+              <Route path="/users" element={<Users />} />
+              <Route path="/users/:userId" element={<PublicUserProfile />} />
+              <Route path="/profile" element={<UserProfile />} />
             </Routes>
           </main>
           <footer className="arcade-footer">
             <div className="container text-center">
               <small className="text-muted">
+                {config.archiveMode && (
+                  <span style={{ color: "#00ffff", fontWeight: "bold" }}>
+                    📦 ARCHIVED CTF •{" "}
+                  </span>
+                )}
                 Powered by CTFd • Theme designed by Angel911
               </small>
             </div>

@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { config } from "../config";
 import api from "../services/api";
 
 const AuthContext = createContext(null);
@@ -6,7 +7,9 @@ const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    config.archiveMode ? false : false
+  );
 
   // Check authentication status on mount
   useEffect(() => {
@@ -14,6 +17,14 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const checkAuthStatus = async () => {
+    // In archive mode, skip authentication
+    if (config.archiveMode) {
+      setUser(null);
+      setIsAuthenticated(false);
+      setLoading(false);
+      return;
+    }
+
     try {
       const userData = await api.checkAuth();
       if (userData) {

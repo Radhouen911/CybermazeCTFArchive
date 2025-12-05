@@ -207,7 +207,7 @@ function ChallengeModal({ challenge, onClose, onSubmitSuccess }) {
 
       if (result.data.status === "correct") {
         // Play success sound
-        const successSound = new Audio("/themes/Arcade/static/submit.mp3");
+        const successSound = new Audio("./submit.mp3");
         successSound.volume = 0.5;
         successSound.play().catch(() => {});
 
@@ -218,7 +218,7 @@ function ChallengeModal({ challenge, onClose, onSubmitSuccess }) {
         }, 2000);
       } else if (result.data.status === "incorrect") {
         // Play fail sound
-        const failSound = new Audio("/themes/Arcade/static/failsound.mp3");
+        const failSound = new Audio("./failsound.mp3");
         failSound.volume = 0.5;
         failSound.play().catch(() => {});
       }
@@ -226,7 +226,7 @@ function ChallengeModal({ challenge, onClose, onSubmitSuccess }) {
       console.error("Submission failed:", error);
       setResponse({ status: "error", message: "Submission failed" });
       // Play fail sound on error too
-      const failSound = new Audio("/themes/Arcade/static/failsound.mp3");
+      const failSound = new Audio("./failsound.mp3");
       failSound.volume = 0.5;
       failSound.play().catch(() => {});
     } finally {

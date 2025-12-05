@@ -1,9 +1,19 @@
 import { config } from "../config";
+import mockApi from "./mockApi";
 
 class CTFdAPI {
   constructor() {
     this.baseURL = config.apiBaseUrl;
     this.csrfToken = null;
+    this.archiveMode = config.archiveMode || false;
+  }
+
+  // Delegate to mock API if in archive mode
+  _delegateIfArchive(method, ...args) {
+    if (this.archiveMode && mockApi[method]) {
+      return mockApi[method](...args);
+    }
+    return null;
   }
 
   async request(endpoint, options = {}) {
@@ -51,45 +61,62 @@ class CTFdAPI {
 
   // Challenges
   async getChallenges() {
+    const mock = this._delegateIfArchive("getChallenges");
+    if (mock) return mock;
     return this.request("/challenges");
   }
 
   async getChallenge(id) {
+    const mock = this._delegateIfArchive("getChallenge", id);
+    if (mock) return mock;
     return this.request(`/challenges/${id}`);
   }
 
   async getChallengeSolves(id) {
+    const mock = this._delegateIfArchive("getChallengeSolves", id);
+    if (mock) return mock;
     return this.request(`/challenges/${id}/solves`);
   }
 
   async submitFlag(challengeId, submission) {
+    const mock = this._delegateIfArchive("submitFlag", challengeId, submission);
+    if (mock) return mock;
+
     const nonce = window.init?.csrfNonce;
     return this.request(`/challenges/attempt`, {
       method: "POST",
       body: JSON.stringify({
         challenge_id: challengeId,
         submission: submission,
-        nonce: nonce, // Include nonce in body
+        nonce: nonce,
       }),
     });
   }
 
   // Scoreboard
   async getScoreboard() {
+    const mock = this._delegateIfArchive("getScoreboard");
+    if (mock) return mock;
     return this.request("/scoreboard");
   }
 
   // Users
   async getUsers() {
+    const mock = this._delegateIfArchive("getUsers");
+    if (mock) return mock;
     return this.request("/users");
   }
 
   // Teams
   async getTeams() {
+    const mock = this._delegateIfArchive("getTeams");
+    if (mock) return mock;
     return this.request("/teams");
   }
 
   async getTeam(id) {
+    const mock = this._delegateIfArchive("getTeam", id);
+    if (mock) return mock;
     return this.request(`/teams/${id}`);
   }
 
@@ -245,18 +272,26 @@ class CTFdAPI {
 
   // User
   async getCurrentUser() {
+    const mock = this._delegateIfArchive("getCurrentUser");
+    if (mock) return mock;
     return this.request("/users/me");
   }
 
   async getUser(id) {
+    const mock = this._delegateIfArchive("getUser", id);
+    if (mock) return mock;
     return this.request(`/users/${id}`);
   }
 
   async getUserSolves(id) {
+    const mock = this._delegateIfArchive("getUserSolves", id);
+    if (mock) return mock;
     return this.request(`/users/${id}/solves`);
   }
 
   async getUserAwards(id) {
+    const mock = this._delegateIfArchive("getUserAwards", id);
+    if (mock) return mock;
     return this.request(`/users/${id}/awards`);
   }
 
@@ -266,15 +301,21 @@ class CTFdAPI {
   }
 
   async generateToken(data) {
+    const nonce = await this.getNonce();
     return this.request("/tokens", {
       method: "POST",
-      body: JSON.stringify(data),
+      body: JSON.stringify({
+        ...data,
+        nonce: nonce,
+      }),
     });
   }
 
   async deleteToken(id) {
+    const nonce = await this.getNonce();
     return this.request(`/tokens/${id}`, {
       method: "DELETE",
+      body: JSON.stringify({ nonce: nonce }),
     });
   }
 
@@ -301,6 +342,9 @@ class CTFdAPI {
   }
 
   async login(name, password) {
+    const mock = this._delegateIfArchive("login", name, password);
+    if (mock) return mock;
+
     try {
       // Get fresh nonce
       const nonce = await this.getNonce();
@@ -343,6 +387,15 @@ class CTFdAPI {
   }
 
   async register(name, email, password, registrationCode) {
+    const mock = this._delegateIfArchive(
+      "register",
+      name,
+      email,
+      password,
+      registrationCode
+    );
+    if (mock) return mock;
+
     try {
       // Get fresh nonce
       const nonce = await this.getNonce();
@@ -404,6 +457,9 @@ class CTFdAPI {
 
   // Check if user is authenticated
   async checkAuth() {
+    const mock = this._delegateIfArchive("checkAuth");
+    if (mock !== null && mock !== undefined) return mock;
+
     try {
       const response = await this.getCurrentUser();
       if (response.success && response.data) {

@@ -1,14 +1,16 @@
 import { Link, useNavigate } from "react-router-dom";
+import { config } from "../config";
 import { useAuth } from "../context/AuthContext";
 import NotificationBell from "./NotificationBell";
 
 function Navbar() {
   const { user, isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
+  const archiveMode = config.archiveMode;
 
   // Play transition sound on click
   const playTransitionSound = () => {
-    const audio = new Audio("/themes/Arcade/static/transition.mp3");
+    const audio = new Audio("./transition.mp3");
     audio.volume = 0.5;
     audio.play().catch(() => {});
   };
@@ -36,7 +38,7 @@ function Navbar() {
                 onClick={playTransitionSound}
               >
                 <img
-                  src="/themes/Arcade/static/LOGO.png"
+                  src="./logo.png"
                   alt="CyberMaze Logo"
                   className="arcade-logo-image"
                 />
@@ -76,7 +78,21 @@ function Navbar() {
 
             {/* Right side - Auth buttons or user info */}
             <div className="arcade-nav-right">
-              {isAuthenticated && user ? (
+              {archiveMode ? (
+                <div
+                  className="arcade-nav-button"
+                  style={{
+                    background:
+                      "linear-gradient(135deg, #00ffff 0%, #0080ff 100%)",
+                    color: "#000",
+                    fontWeight: "bold",
+                    cursor: "default",
+                    boxShadow: "0 0 20px rgba(0, 255, 255, 0.5)",
+                  }}
+                >
+                  📦 ARCHIVED CTF
+                </div>
+              ) : isAuthenticated && user ? (
                 <>
                   {(user.isAdmin || window.init?.userType === "admin") && (
                     <a

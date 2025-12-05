@@ -23,7 +23,7 @@ function TaskContainer({
       >
         {/* Background Image */}
         <img
-          src="/themes/Arcade/static/Task case.png"
+          src="/taskcase.png"
           alt="Task Container"
           className="task-bg-image"
         />

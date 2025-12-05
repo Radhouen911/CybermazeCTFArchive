@@ -79,7 +79,7 @@ function Challenges() {
 
   // Sound effect for path switching
   const playPathChangeSound = () => {
-    const audio = new Audio("/themes/Arcade/static/SEL.mp3");
+    const audio = new Audio("./sel.mp3");
     audio.volume = 0.5;
     audio.play().catch(() => {});
   };
@@ -297,7 +297,7 @@ function Challenges() {
           muted
           playsInline
         >
-          <source src="/themes/Arcade/static/neonlights.mp4" type="video/mp4" />
+          <source src="./neonlights.mp4" type="video/mp4" />
         </video>
       )}
 
@@ -306,7 +306,7 @@ function Challenges() {
         <div
           className="path-video-background"
           style={{
-            backgroundImage: "url('/themes/Arcade/static/8bit.gif')",
+            backgroundImage: "url('./8bit.gif')",
             backgroundSize: "cover",
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
@@ -323,10 +323,7 @@ function Challenges() {
           muted
           playsInline
         >
-          <source
-            src="/themes/Arcade/static/cyberpunkalley.mp4"
-            type="video/mp4"
-          />
+          <source src="./cyberpunkalley.mp4" type="video/mp4" />
         </video>
       )}
 
@@ -339,7 +336,7 @@ function Challenges() {
           muted
           playsInline
         >
-          <source src="/themes/Arcade/static/fantasy.mp4" type="video/mp4" />
+          <source src="./fantasy.mp4" type="video/mp4" />
         </video>
       )}
 
@@ -352,7 +349,7 @@ function Challenges() {
           muted
           playsInline
         >
-          <source src="/themes/Arcade/static/battlear.mp4" type="video/mp4" />
+          <source src="./battlearena.mp4" type="video/mp4" />
         </video>
       )}
 
@@ -365,7 +362,7 @@ function Challenges() {
           muted
           playsInline
         >
-          <source src="/themes/Arcade/static/rythmrevo.mp4" type="video/mp4" />
+          <source src="./rythmrevo.mp4" type="video/mp4" />
         </video>
       )}
 

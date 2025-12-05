@@ -46,10 +46,7 @@ function Register() {
   return (
     <div className="auth-page">
       <video className="auth-video-bg" autoPlay loop muted playsInline>
-        <source
-          src="/themes/Arcade/static/cyberpunkalley.mp4"
-          type="video/mp4"
-        />
+        <source src="./cyberpunkalley.mp4" type="video/mp4" />
       </video>
 
       <div className="auth-container">
