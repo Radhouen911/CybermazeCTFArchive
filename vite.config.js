@@ -5,9 +5,9 @@ import { defineConfig } from "vite";
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: "/CybermazeCTFArchive/", // GitHub Pages subdirectory
+  base: "/", // Root path for Netlify
   build: {
-    outDir: "static",
+    outDir: "dist",
     emptyOutDir: true,
     rollupOptions: {
       input: {
@@ -15,6 +15,7 @@ export default defineConfig({
       },
     },
   },
+  publicDir: "public",
   server: {
     port: 3000,
     proxy: {
